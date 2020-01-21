@@ -41,18 +41,72 @@ hjälpprogram som låter webbrowsern prata med arduino-datorn.
 
 ### blinka en lampa
 
-Inline-style:
-![Krets med arduino, breadboard och lysdiod][diod]
+![Krets med arduino, breadboard och lysdiod][diodknapp]
 
-[diod]: kretsar/blinka-diod_bb.png "Krets med arduino, breadboard och lysdiod"
+[diod]: kretsar/diod-knapp.png "Krets med arduino, breadboard och lysdiod"
 
+```ino
+#define RED 2
+
+void setup() {
+
+}
+
+void loop() {
+  digitalWrite(RED,HIGH);
+  delay(100);
+  digitalWrite(RED,LOW);
+  delay(100);
+}
+
+```
 
 ### är knappen intryckt?
 
+![Krets med arduino, breadboard, lysdiod och knapp][diod]
+
+[diodknapp]: kretsar/blinka-diod_bb.png "Krets med arduino, breadboard, lysdiod och knapp"
+
+```ino
+#define RED 2
+#define BUTTON 4
+
+int button = LOW;
+
+void setup() {
+
+}
+
+void loop() {
+  button=digitalRead(BUTTON);
+  if(button==HIGH){
+    digitalWrite(RED,HIGH);
+    delay(100);
+    digitalWrite(RED,LOW);
+    delay(100);
+  } else {
+    digitalWrite(BLUE,HIGH);
+    delay(100);
+    digitalWrite(BLUE,LOW);
+    delay(100);
+  }
+}
+
+```
 ## hur ljust är det?
 
 ## tänd en lampa om det är mörkt
 
 ## spela en stege när vi trycker på knappen
 
+![Krets med arduino, breadboard, knapp och buzzer][buzzer]
+
+[buzzer]: kretsar/buzzer.png "Krets med arduino, breadboard, knapp och buzzer"
+
+
 ## motor och avståndsmätare: vi bygger en robot
+
+
+![Krets med arduino, breadboard, avståndsmätare och motorer][motorer]
+
+[motorer]: kretsar/motor-bil-sensor.png "Krets med arduino, breadboard, avståndsmätare och motorer"
