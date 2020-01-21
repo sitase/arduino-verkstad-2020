@@ -39,11 +39,19 @@ hjälpprogram som låter webbrowsern prata med arduino-datorn.
 
 
 
-### blinka en lampa
+### blinka en lampa -- UT
+
+Det första vi testar är om vi kan blinka en lysdiod med hjälp av datorn.
 
 ![Krets med arduino, breadboard och lysdiod][diodknapp]
 
 [diod]: kretsar/diod-knapp.png "Krets med arduino, breadboard och lysdiod"
+
+Ett arduino-program består av två delar: En del som sätter i ordning saker
+när datorn startas; ```setup()```, och en slinga som körs om och om igen; `loop()`.
+
+För ändra spänningen på en pinne skriver vi till den: `digitalRead(_pinne_, _värde_)`. För att göra det lite
+enklare för oss att läsa kallar vi pinnen för RED (#define).
 
 ```ino
 #define RED 2
@@ -61,7 +69,7 @@ void loop() {
 
 ```
 
-### är knappen intryckt?
+### är knappen intryckt? -- IN
 
 ![Krets med arduino, breadboard, lysdiod och knapp][diod]
 
