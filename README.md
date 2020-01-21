@@ -44,7 +44,7 @@ hjälpprogram som låter webbrowsern prata med arduino-datorn.
 Inline-style:
 ![Krets med arduino, breadboard och lysdiod][diod]
 
-[diod]:(kretsar/blinka-diod_bb.png "Krets med arduino, breadboard och lysdiod")
+[diod]: kretsar/blinka-diod_bb.png "Krets med arduino, breadboard och lysdiod"
 
 
 ### är knappen intryckt?
