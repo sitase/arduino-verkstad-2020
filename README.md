@@ -81,6 +81,8 @@ Om `button` är `HIGH` så tänder vi lampan, väntar, släcker den, väntar. Om
 
 ![Krets med arduino, breadboard, lysdiod och knapp][diodknapp]
 
+TODO: diod felritad.
+
 [diodknapp]: kretsar/diod-knapp.png "Krets med arduino, breadboard, lysdiod och knapp"
 
 ```ino
@@ -124,6 +126,9 @@ att för att jämför motståndet hos fotoresistorn med en känd resistans.
 `digitalRead` läser bara ut om en pinne är `HIGH` eller `LOW`. Om vi vill läsa utan en kontinuerlig skala (0 till 1023)
 så använder vi `analogRead`. Vi måste också använda en analog pinne.
 
+TODO: felritat
+TODO: rita krets
+
 Vi kan skriva saker på "konsolen" (`Serial`). Det är jättepraktiskt om vi till exempel vill veta
 vilka värden som vi läser ut från fotoresistorn. För att se konsolen, välj "Monitor" i utvecklingsmiljö.
 
@@ -151,14 +156,14 @@ void  loop(){
 
 ## spela en stege när vi trycker på knappen
 
-
+TODO: buzzer måste vara PWM
 
 ![Krets med arduino, breadboard, knapp och buzzer][buzzer]
 
 [buzzer]: kretsar/buzzer.png "Krets med arduino, breadboard, knapp och buzzer"
 
 ```ino
-#define BUTTON 2
+#define BUTTON 4
 #define BUZZER 8
 
 int button = LOW;
@@ -184,6 +189,8 @@ void  loop(){
 
 Om man har flera knappar, kan man bygga ett piano då?
 
+TODO: defines för toner
+
 Lite knepigare: Kan man göra olika saker varje gång man trycker på knappen?
 
 ## motor och avståndsmätare: vi bygger en robot
@@ -192,3 +199,22 @@ Lite knepigare: Kan man göra olika saker varje gång man trycker på knappen?
 ![Krets med arduino, breadboard, avståndsmätare och motorer][motorer]
 
 [motorer]: kretsar/motor-bil-sensor.png "Krets med arduino, breadboard, avståndsmätare och motorer"
+
+* TODO skriv instruktioner för avståndsmätare
+* TODO skriv program
+
+```ino
+long measureDistance(){
+  long durationindigit, distanceincm;
+  digitalWrite(TRIG, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG, LOW);
+  durationindigit = pulseIn(ECHO, HIGH);
+  distanceincm = (durationindigit/5) / 29.1;
+  Serial.print("distance ");
+  Serial.println(distanceincm,DEC);
+  return distanceincm;
+}
+```
