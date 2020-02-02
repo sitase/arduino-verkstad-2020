@@ -128,12 +128,12 @@ att för att jämför motståndet hos fotoresistorn med en känd resistans.
 `digitalRead` läser bara ut om en pinne är `HIGH` eller `LOW`. Om vi vill läsa utan en kontinuerlig skala (0 till 1023)
 så använder vi `analogRead`. Vi måste också använda en analog pinne.
 
-![Krets med arduino, breadboard, lysdiod och fotoresistormodul][fotoresistormodul]
-
 I den fotoresistor-modul som de flesta har fått så finns både själva fotoresistorn och motståndet i. Om vi kopplar in den enligt
 nedan så är det samma krets, fast vi har krymt ihop två komponenter på en modul.
 
-[fotoresistor]: kretsar/fotoresistor-modul.png "Krets med arduino, breadboard, fotoresistormodul"
+![Krets med arduino, breadboard, lysdiod och fotoresistormodul][fotoresistormodul]
+
+[fotoresistormodul]: kretsar/fotoresistor-modul.png "Krets med arduino, breadboard, fotoresistormodul"
 
 Vi kan skriva saker på "konsolen" (`Serial`). Det är jättepraktiskt om vi till exempel vill veta
 vilka värden som vi läser ut från fotoresistorn. För att se konsolen, välj "Monitor" i utvecklingsmiljö.
