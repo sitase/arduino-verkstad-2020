@@ -220,6 +220,10 @@ och som vi sen kan använda.
 Lägg till det här sist i din sketch:
 
 ```ino
+
+#define TRIG 3
+#define ECHO 4
+
 long measureDistance(){
   long durationindigit, distanceincm;
   digitalWrite(TRIG, LOW);
@@ -291,6 +295,7 @@ Nu har vi bitarna som vi kan sätta ihop för att få roboten att köra om det
 är fritt fram, och stanna om den kommer nära ett hinder.
 
 ```ino
+int speed=0;
 void loop(){
   right(IN1,IN2);
   left(IN3,IN4);
