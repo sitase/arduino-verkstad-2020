@@ -1,7 +1,5 @@
 # Arduino-verkstad
 
-## JFokus kidz 2020
-
 Vi ska bygga en robot! En robot är en dator som kan röra på sig. Vi behöver
 kunna koppla ihop datorn med en motor och någon slags känselspröt så att den
 kan reagera på sin omgivning. "Reagera" betyder att den behöver ett datorprogram
@@ -207,6 +205,83 @@ Lite knepigare: Kan man göra olika saker varje gång man trycker på knappen?
 För roboten behövs ett chassi och två likströmsmotorer med växelåda. Dessa har vi redan monterat.
 Dessutom behöver vi en motorstyrningskrets som kan driva båda motorerna, och en ultraljudsavståndsmätare.
 
+### Motorstyrning
+
+Motorstyrningskretsen har, förutom '5V' och 'GND', sex pinnar som
+styr motorerna, tre för varje. Två bestämmer vilket håll motorn ska gå, och en
+bestämmer hastigheten. Hastighetspinnen ska vi skriva *analoga* värden till, det vill
+säga allt mellan 0 och 255. Det fixar vi genom att använda *pulsviddsmodulering*. pinnen
+kommer att vara antingen hög eller låg, men växla fort fram och tillbaka. Det gör
+arduinon åt oss om vi använder någon av de pinnar som är märkta PWM (eller ~).
+
+![Pulsviddsmodulering][pwm]
+
+[pwm]: bilder/pwm.png "Pulsviddsmodulering"
+
+Lägg till följande kod i din sketch:
+
+```
+#define IN1 13
+#define IN2 12
+#define IN3 11
+#define IN4 10
+
+#define SPEEDA 6
+#define SPEEDB 9
+
+void right(int pin1, int pin2){
+  digitalWrite(pin1, HIGH);
+  digitalWrite(pin2, LOW);
+}
+
+void left(int pin1, int pin2){
+  digitalWrite(pin1, LOW);
+  digitalWrite(pin2, HIGH);
+}
+
+void stop(int pin1, int pin2){
+  digitalWrite(pin1, HIGH);
+  digitalWrite(pin2, HIGH);
+}
+
+void setSpeed(int pin, int speed){
+  analogWrite(pin,speed);
+}
+```
+
+`void` (som betyder "tomrum" på engelska) betyder att funktionen inte returnerar
+något. Vi bara säger åt datorn att göra något, men vill inte ha ett svar.
+
+Nu kan vi få roboten att röra på sig:
+
+```ino
+int speed=0;
+
+void setup(){
+}
+
+void loop(){
+  right(IN1,IN2);
+  left(IN3,IN4);
+
+  long distance=measureDistance();
+  if(true){
+    speed=255;
+  }
+
+  setSpeed(SPEEDA,speed);
+  setSpeed(SPEEDB,speed);
+  delay(300);
+}
+```
+
+Det är inte säkert att hjulen snurrar åt rätt håll. Om det blir fel, byt `right` mot `left`.
+
+### Avståndsmätaren
+
+För att roboten inte ska köra in i saker och ting behöver vi mäta avståndet till hinder. Om vi upptäcker att vi har
+kommit för nära ett hinder kan vi stanna. Eller kanske backa och vända?
+
 Avståndsmätaren behöver anslutas till `5V` (den pinen är märkt `VCC` på sensorn) och till `GND`. Man använder den
 genom att skicka en kort puls till `TRIG` så att den sedan skickar ut en kort ultraljudspuls som studsar mot något
 hinder. Sensorn lyssnar sedan efter att ljudet studsar tillbaka. Tiden det tar för ljudet fram och tillbaka får vi
@@ -246,56 +321,18 @@ upp och ned, så om den är för nära underlaget kan den se det av misstag.
 
 [riktning]: bilder/IMG_2212.jpg "Ultraljudssensorns riktningskänslighet"
 
-Motorstyrningskretsen har, förutom '5V' och 'GND', sex pinnar som
-styr motorerna, tre för varje. Två bestämmer vilket håll motorn ska gå, och en
-bestämmer hastigheten. Hastighetspinnen ska vi skriva *analoga* värden till, det vill
-säga allt mellan 0 och 255. Det fixar vi genom att använda *pulsviddsmodulering*. pinnen
-kommer att vara antingen hög eller låg, men växla fort fram och tillbaka. Det gör
-arduinon åt oss om vi använder någon av de pinnar som är märkta PWM (eller ~).
 
-
-![Pulsviddsmodulering][pwm]
-
-[pwm]: bilder/pwm.png "Pulsviddsmodulering"
-
-
-```
-#define IN1 13
-#define IN2 12
-#define IN3 11
-#define IN4 10
-
-#define SPEEDA 6
-#define SPEEDB 9
-
-void right(int pin1, int pin2){
-  digitalWrite(pin1, HIGH);
-  digitalWrite(pin2, LOW);
-}
-
-void left(int pin1, int pin2){
-  digitalWrite(pin1, LOW);
-  digitalWrite(pin2, HIGH);
-}
-
-void stop(int pin1, int pin2){
-  digitalWrite(pin1, HIGH);
-  digitalWrite(pin2, HIGH);
-}
-
-void setSpeed(int pin, int speed){
-  analogWrite(pin,speed);
-}
-```
-
-`void` (som betyder "tomrum" på engelska) betyder att funktionen inte returnerar
-något. Vi bara säger åt datorn att göra något, men vill inte ha ett svar.
+### Allt
 
 Nu har vi bitarna som vi kan sätta ihop för att få roboten att köra om det
 är fritt fram, och stanna om den kommer nära ett hinder.
 
 ```ino
 int speed=0;
+
+void setup(){
+}
+
 void loop(){
   right(IN1,IN2);
   left(IN3,IN4);
@@ -313,4 +350,5 @@ void loop(){
 }
 ```
 
-Det är inte säkert att hjulen snurrar åt rätt håll. Om det blir fel, byt `right` mot `left`.
+Återigen, det är inte säkert att hjulen snurrar åt rätt håll. Det beror på hur motorerna är inkopplade till motorstyrningen.
+Om det är fel så är det lättast att rätta det i mjukvara (byt left mot right eller tvärtom).
