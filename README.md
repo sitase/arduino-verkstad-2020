@@ -9,14 +9,14 @@ som bestämmer vad den ska göra om den ser ett hinder.
 * Arduino Uno R3
 * USB B-A kabel
 * Kopplingsplatta (breadboard)
-* Kopplingskablar
+* Kopplingskablar, 20 ha-ha, 10 ha-ho
 * 3 lysdioder (röd, grön, gul)
 * fotoresistor
 * buzzer
 * tryckknapp
 * ultraljudsavståndsmätare
 * USB powerbank
-* motstånd 220 ohm
+* motstånd 220 ohm, 2
 * roboten:
   * två likströmsmotorer med växellåda
   * två hjul
@@ -113,7 +113,7 @@ Kan vi blinka med flera lysdioder?
 
 En fotoresistor är ett motstånd vars motstånd beror på hur ljust det är. Om vi har flera
 resistanser i serie så kommer spänningen vi lägger på att fördela sig i proportion till
-resistanserna. Alltså, om vi har två stycken 220 Ω-motstånd i serie och lägger på 5 V spänning
+resistanserna. Alltså, om vi har två stycken 220 Ω-motstånd i serie och lägger på 5 V spänning
 så kommer 2,5 V att ligga över vardera. Det kallas spänningsdelning och det kan vi använda för
 att för att jämför motståndet hos fotoresistorn med en känd resistans.
 
