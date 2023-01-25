@@ -7,7 +7,8 @@ som bestämmer vad den ska göra om den ser ett hinder.
 
 ## komponentlista
 * Arduino Uno R3
-* USB B-A kabel
+* USB B-A-kabel
+  * (vissa arduinos har USB mini, då är det en USB mini-A-kabel, inte alla kablar har databanor utan är bara laddkablar, så var uppmärksam på det om du inte kan prata med din arduino)
 * Kopplingsplatta (breadboard)
 * Kopplingskablar, 20 ha-ha, 10 ha-ho
 * 3 lysdioder (röd, grön, gul)
@@ -16,7 +17,7 @@ som bestämmer vad den ska göra om den ser ett hinder.
 * tryckknapp
 * ultraljudsavståndsmätare
 * USB powerbank
-* motstånd 220 ohm, 2
+* motstånd 220 ohm, 2st (röd röd brun)
 * roboten:
   * två likströmsmotorer med växellåda
   * två hjul
@@ -27,11 +28,15 @@ som bestämmer vad den ska göra om den ser ett hinder.
 ## annan utrustning som behövs
 
 * elektronikmejslar
+* USB-C-A-adapter om din dator inte har USB-A
 
 ## utvecklingsmiljön
 
 I första hand använder vi den webbaserade editorn på https://create.arduino.cc. Du behöver skapa ett konto där, samt installera ett
-hjälpprogram som låter webbrowsern prata med arduino-datorn.
+hjälpprogram som låter webbrowsern prata med arduino-datorn. 
+
+För de som kör MacOS Ventura så installerar man hjälpprogrammet härifrån: https://github.com/arduino/arduino-create-agent/releases/tag/1.2.7-ventura
+
 
 ## vad är det här?
 
@@ -43,19 +48,20 @@ Det första vi testar är om vi kan blinka en lysdiod med hjälp av datorn.
 
 ![Krets med arduino, breadboard och lysdiod][diodknapp]
 
-[diod]: kretsar/diod-knapp.png "Krets med arduino, breadboard och lysdiod"
+[diod]: kretsar/blinka-diod_bb.png "Krets med arduino, breadboard och lysdiod"
 
 Ett arduino-program består av två delar: En del som sätter i ordning saker
 när datorn startas; ```setup()```, och en slinga som körs om och om igen; `loop()`.
 
 För ändra spänningen på en pinne skriver vi till den: `digitalWrite(_pinne_, _värde_)`. För att göra det lite
-enklare för oss att läsa vår egen kod kallar vi pinnen för RED (#define).
+enklare för oss att läsa vår egen kod kallar vi pinnen för RED (#define). Pinnar kan vara input (vi kan läsa från den) eller output (skriva till den). Alla pinnar är normalt input, så för att tala om att vi vill skriva till den så gör vi `pinMode(RED,OUTPUT)` i `setup()`.
+
 
 ```ino
 #define RED 2
 
 void setup() {
-
+  pinMode(RED,OUTPUT);
 }
 
 void loop() {
@@ -127,7 +133,7 @@ att för att jämför motståndet hos fotoresistorn med en känd resistans.
 så använder vi `analogRead`. Vi måste också använda en analog pinne.
 
 I den fotoresistor-modul som de flesta har fått så finns både själva fotoresistorn och motståndet i. Om vi kopplar in den enligt
-nedan så är det samma krets, fast vi har krymt ihop två komponenter på en modul.
+nedan så är det samma krets, fast vi har krymt ihop två komponenter på en modul. (På den skissen finns inte lysdioden med, men den kopplas på samma sätt som ovan)
 
 ![Krets med arduino, breadboard, lysdiod och fotoresistormodul][fotoresistormodul]
 
@@ -138,7 +144,7 @@ vilka värden som vi läser ut från fotoresistorn. För att se konsolen, välj 
 
 
 ```ino
-#define RED 5
+#define RED 2
 #define PHOTO 0
 int light = 0;
 void setup() {
@@ -150,15 +156,17 @@ void  loop(){
         light = analogRead(PHOTO); // high values for bright environment
         Serial.println(light, DEC);
 
-        if(light>250){
-          digitalWrite(YELLOW,HIGH);
+        if(light>500){
+          digitalWrite(RED,HIGH);
         } else {
-          digitalWrite(YELLOW,LOW);
+          digitalWrite(RED,LOW);
         }
 }
 ```
 
 ## spela en stege när vi trycker på knappen
+
+_Överkurs, hoppa över om du känner att du har lite ont med tid.__
 
 ![Krets med arduino, breadboard, knapp och buzzer][buzzer]
 
