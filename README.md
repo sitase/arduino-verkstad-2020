@@ -33,9 +33,9 @@ som bestämmer vad den ska göra om den ser ett hinder.
 ## utvecklingsmiljön
 
 I första hand använder vi den webbaserade editorn på https://create.arduino.cc. Du behöver skapa ett konto där, samt installera ett
-hjälpprogram som låter webbrowsern prata med arduino-datorn. 
+hjälpprogram som låter webbrowsern prata med arduino-datorn.
 
-För de som kör MacOS Ventura så installerar man hjälpprogrammet härifrån: https://github.com/arduino/arduino-create-agent/releases/tag/1.2.7-ventura
+För de som kör MacOS Ventura så installerar man hjälpprogrammet härifrån: https://github.com/arduino/arduino-create-agent/releases/tag/1.6.1
 
 
 ## vad är det här?
@@ -98,7 +98,8 @@ Om `button` är `HIGH` så tänder vi lampan, väntar, släcker den, väntar. Om
 int button = LOW;
 
 void setup() {
-
+  pinMode(RED,OUTPUT);
+  pinMode(BUTTON,INPUT);
 }
 
 void loop() {
@@ -146,21 +147,23 @@ vilka värden som vi läser ut från fotoresistorn. För att se konsolen, välj 
 ```ino
 #define RED 2
 #define PHOTO 0
+
 int light = 0;
+
 void setup() {
    Serial.begin (9600);
    pinMode(RED, OUTPUT);
 }
 
-void  loop(){
-        light = analogRead(PHOTO); // high values for bright environment
-        Serial.println(light, DEC);
+void loop() {
+  light = analogRead(PHOTO); // high values for bright environment
+  Serial.println(light, DEC);
 
-        if(light>500){
-          digitalWrite(RED,HIGH);
-        } else {
-          digitalWrite(RED,LOW);
-        }
+  if(light>500){
+    digitalWrite(RED,HIGH);
+  } else {
+    digitalWrite(RED,LOW);
+  }
 }
 ```
 
@@ -174,7 +177,7 @@ _Överkurs, hoppa över om du känner att du har lite ont med tid.__
 
 ```ino
 #define BUTTON 4
-#define BUZZER 8
+#define BUZZER 3
 
 int button = LOW;
 int note=440;
@@ -184,16 +187,16 @@ void setup() {
    pinMode(BUTTON, INPUT);
 }
 
-void  loop(){
-        button=digitalRead(BUTTON);
-        if(button  == HIGH){
-          tone(BUZZER,note);
-          note=note*step;
-        }else{
-          noTone(BUZZER);
-          note=440;
-        }
-        delay(1000);
+void loop() {
+  button=digitalRead(BUTTON);
+  if(button  == HIGH){
+    tone(BUZZER,note);
+    note=note*step;
+  }else{
+    noTone(BUZZER);
+    note=440;
+  }
+  delay(1000);
 }
 ```
 
@@ -237,22 +240,22 @@ Lägg till följande kod i din sketch:
 #define SPEEDA 6
 #define SPEEDB 9
 
-void right(int pin1, int pin2){
+void right(int pin1, int pin2) {
   digitalWrite(pin1, HIGH);
   digitalWrite(pin2, LOW);
 }
 
-void left(int pin1, int pin2){
+void left(int pin1, int pin2) {
   digitalWrite(pin1, LOW);
   digitalWrite(pin2, HIGH);
 }
 
-void stop(int pin1, int pin2){
+void stop(int pin1, int pin2) {
   digitalWrite(pin1, HIGH);
   digitalWrite(pin2, HIGH);
 }
 
-void setSpeed(int pin, int speed){
+void setSpeed(int pin, int speed) {
   analogWrite(pin,speed);
 }
 ```
@@ -265,15 +268,19 @@ Nu kan vi få roboten att röra på sig:
 ```ino
 int speed=0;
 
-void setup(){
+void setup() {
+  pinMode(IN1,OUTPUT);
+  pinMode(IN2,OUTPUT);
+  pinMode(IN3,OUTPUT);
+  pinMode(IN4,OUTPUT);
 }
 
-void loop(){
+void loop() {
   right(IN1,IN2);
   left(IN3,IN4);
 
   long distance=measureDistance();
-  if(true){
+  if(true) {
     speed=255;
   }
 
@@ -304,8 +311,12 @@ Lägg till det här sist i din sketch:
 
 ```ino
 
-#define TRIG 3
-#define ECHO 4
+#define TRIG 7
+#define ECHO 8
+
+// add the following to sertup
+//  pinMode(TRIG,OUTPUT);
+//  pinMode(ECHO,INPUT);
 
 long measureDistance(){
   long durationindigit, distanceincm;
@@ -338,15 +349,12 @@ Nu har vi bitarna som vi kan sätta ihop för att få roboten att köra om det
 ```ino
 int speed=0;
 
-void setup(){
-}
-
-void loop(){
+void loop() {
   right(IN1,IN2);
   left(IN3,IN4);
 
   long distance=measureDistance();
-  if(distance<15){
+  if(distance<15) {
     speed=0;
   }else{
     speed=255;
