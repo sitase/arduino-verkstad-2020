@@ -189,10 +189,10 @@ void setup() {
 
 void loop() {
   button=digitalRead(BUTTON);
-  if(button  == HIGH){
+  if(button  == HIGH) {
     tone(BUZZER,note);
     note=note*step;
-  }else{
+  } else {
     noTone(BUZZER);
     note=440;
   }
@@ -314,11 +314,11 @@ Lägg till det här sist i din sketch:
 #define TRIG 7
 #define ECHO 8
 
-// add the following to sertup
+// add the following to setup
 //  pinMode(TRIG,OUTPUT);
 //  pinMode(ECHO,INPUT);
 
-long measureDistance(){
+long measureDistance() {
   long durationindigit, distanceincm;
   digitalWrite(TRIG, LOW);
   delayMicroseconds(2);
@@ -356,7 +356,7 @@ void loop() {
   long distance=measureDistance();
   if(distance<15) {
     speed=0;
-  }else{
+  } else {
     speed=255;
   }
 
