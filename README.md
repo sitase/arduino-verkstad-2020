@@ -273,6 +273,8 @@ void setup() {
   pinMode(IN2,OUTPUT);
   pinMode(IN3,OUTPUT);
   pinMode(IN4,OUTPUT);
+  pinMode(SPEEDA,OUTPUT);
+  pinMode(SPEEDB,OUTPUT);
 }
 
 void loop() {
@@ -368,3 +370,36 @@ void loop() {
 
 Återigen, det är inte säkert att hjulen snurrar åt rätt håll. Det beror på hur motorerna är inkopplade till motorstyrningen.
 Om det är fel så är det lättast att rätta det i mjukvara (byt left mot right eller tvärtom).
+
+### Sväng vid hinder
+
+Om vi vill lägga till lite extra funktionalitet, så kan vi även lägga till att den ska svänga om det är något hinder i vägen.
+Detta kan gäras med att snurra ena hjulet baklänges ett litet tag medan det andra hjulet snurrar framåt.
+
+``ìno
+void loop() {
+  right(IN1,IN2);
+  left(IN3,IN4);
+
+  speed=255;
+  setSpeed(SPEEDA,speed);
+  setSpeed(SPEEDB,speed);
+
+  long distance=measureDistance();
+  if(distance<15) {
+    turnLeft();
+  }
+
+  delay(300);
+}
+
+void turnLeft() {
+  stop(IN1,IN2);
+  stop(IN3,IN4);
+  delay(300);
+  left(IN1,IN2);
+  left(IN3,IN4);
+  delay(500);
+}
+
+``
