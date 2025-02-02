@@ -376,7 +376,7 @@ Om det är fel så är det lättast att rätta det i mjukvara (byt left mot righ
 Om vi vill lägga till lite extra funktionalitet, så kan vi även lägga till att den ska svänga om det är något hinder i vägen.
 Detta kan gäras med att snurra ena hjulet baklänges ett litet tag medan det andra hjulet snurrar framåt.
 
-``ìno
+```ino
 void loop() {
   right(IN1,IN2);
   left(IN3,IN4);
@@ -401,5 +401,4 @@ void turnLeft() {
   left(IN3,IN4);
   delay(500);
 }
-
-``
+```
