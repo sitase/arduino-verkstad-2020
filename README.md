@@ -396,9 +396,11 @@ void loop() {
 void turnLeft() {
   stop(IN1,IN2);
   stop(IN3,IN4);
-  delay(300);
+  delay(200);
   left(IN1,IN2);
   left(IN3,IN4);
   delay(500);
+  stop(IN1,IN2);
+  stop(IN3,IN4);
 }
 ```
